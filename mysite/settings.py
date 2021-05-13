@@ -30,7 +30,6 @@ ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 
-
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'crispy_forms',
     'social_django',
-  #
+    'taggit',
     'blog.apps.BlogConfig',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
@@ -53,9 +52,6 @@ INSTALLED_APPS = [
     'funzioniiot.apps.FunzioniiotConfig',
     'myshop.apps.MyshopConfig',
     
-    'taggit',
-
-
 ]
 
 MIDDLEWARE = [
@@ -92,7 +88,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
+"""
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -107,6 +103,61 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+"""
+
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+# Install PyMySQL as mysqlclient/MySQLdb to use Django's mysqlclient adapter
+# See https://docs.djangoproject.com/en/2.1/ref/databases/#mysql-db-api-drivers
+# for more information
+import pymysql  # noqa: 402
+pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
+pymysql.install_as_MySQLdb()
+
+# [START db_setup]
+if os.getenv('GAE_APPLICATION', None):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '/cloudsql/mysite-django-313517:europe-west6:mysite-istance',
+            'USER': 'enrico',
+            'PASSWORD': 'merdaccia77',
+            'NAME': 'main',
+        }
+    }
+else:
+    # Running locally so connect to either a local MySQL instance or connect to
+    # Cloud SQL via the proxy. To start the proxy via command line:
+    #
+    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+    #
+    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'NAME': 'main',
+            'USER': 'enrico',
+            'PASSWORD': 'merdaccia77',
+        }
+    }
+# [END db_setup]
+
+# Use a in-memory sqlite3 database when testing in CI systems
+if os.getenv('TRAMPOLINE_CI', None):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
+    }
+
+
+
 
 
 
@@ -147,22 +198,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    
     os.path.join(BASE_DIR, 'templates'),
 )
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'enrico.saccheggiani@gmail.com'
 EMAIL_HOST_PASSWORD = 'Mavaffanculo678$'
-
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
@@ -182,6 +231,7 @@ CART_SESSION_ID = 'cart'
 BRAINTREE_MERCHANT_ID = 'gkmpkv9ky9hv66p4'   # Merchant ID
 BRAINTREE_PUBLIC_KEY  = 'wwcjjfdc7s955gt4'   # Public Key
 BRAINTREE_PRIVATE_KEY = '3f447c2d96c5bed5bb8e1d9ce282dd03'  # Private key
+
 import braintree
 BRAINTREE_CONF = braintree.Configuration(
     braintree.Environment.Sandbox,
