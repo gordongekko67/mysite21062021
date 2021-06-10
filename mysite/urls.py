@@ -24,6 +24,9 @@ from funzioniiot import views as views_app_iot
 from myshop import views as views_myshop
 from funzioniiot.views import titoloDetailView, TitoloDetailViewCB, home
 
+
+
+
 sitemaps = {
     'posts': PostSitemap,
 }
@@ -53,6 +56,14 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('account/', include('account.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
+    #
+    path('emp', views_app_iot.emp),  
+    path('show',views_app_iot.show),  
+    path('edit/<int:id>', views_app_iot.edit),  
+    path('update/<int:id>', views_app_iot.update),  
+    path('delete/<int:id>', views_app_iot.destroy),  
+
+
 ]
 
 if settings.DEBUG:

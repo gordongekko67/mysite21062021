@@ -1,7 +1,7 @@
 from django import forms
 from  django.core.exceptions import ValidationError
 #from  django.core import validator
-from  .models  import Titoli2
+from  .models  import Titoli2, Employee
 
 
 from django.contrib.auth.models import  User
@@ -64,7 +64,11 @@ class FormRegistrazioneUser(forms.ModelForm):
       return self.cleaned_data
 
 
-      
+   
+class EmployeeForm(forms.ModelForm):  
+    class Meta:  
+        model = Employee  
+        fields = "__all__"  
       
       
       

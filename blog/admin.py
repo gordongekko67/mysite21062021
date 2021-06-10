@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Post,Articoli,Clienti,Titoli, Comment
+from funzioniiot.models import Employee
 
 
 @admin.register(Post)
@@ -34,3 +35,6 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('active', 'created', 'updated')
     search_fields = ('name', 'email', 'body')
 
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('eid', 'ename', 'eemail', 'econtact')
