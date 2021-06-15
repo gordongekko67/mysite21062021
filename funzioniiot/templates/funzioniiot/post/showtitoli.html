@@ -1,0 +1,39 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    {% load static %}
+    <title>Employee Records</title>  
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>  
+<body>  
+<table class="table table-striped table-bordered table-sm">  
+    <thead class="thead-dark">  
+    <tr>  
+        <th>Titoli  ID</th>  
+        <th>Titoli  Isin</th>  
+        <th>Titoli  Body</th>  
+    </tr>  
+    </thead>  
+    <tbody>  
+{% for titoli in titolis %}  
+    <tr>  
+        <td>{{ titoli.codtit2 }}</td>  
+        <td>{{ titoli.codisintit2 }}</td>  
+        <td>{{ titoli.codbodytit2 }}</td>  
+        <td>  
+
+            <a href="/edit/{{ titoli.codtit }}"><span class="btn btn-primary" >Edit</span></a>  
+            <a href="/delete/{{ titoli.codtit }}"><span class="btn btn-primary">Delete</a>  
+        </td>  
+    </tr>  
+{% endfor %}  
+    </tbody>  
+</table>  
+<br>  
+<br>  
+<a href="/emptit" ><span class="btn btn-primary">Add New Record</span></a>
+<a href="/" class="btn btn-primary">Home</a>
+</body>  
+</html>        

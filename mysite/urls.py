@@ -59,6 +59,7 @@ urlpatterns = [
     #
     path('emp', views_app_iot.emp),  
     path('show',views_app_iot.show),  
+    path('showtitoli',views_app_iot.showtitoli),  
     path('edit/<int:id>', views_app_iot.edit),  
     path('update/<int:id>', views_app_iot.update),  
     path('delete/<int:id>', views_app_iot.destroy),  

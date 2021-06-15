@@ -13,10 +13,11 @@ from funzioniiot.forms import FormContatto, FormTitoli, TitoliModelForm, FormReg
 # Create your views here.
 from django.shortcuts import render, redirect  
 from funzioniiot.forms import FormTitoli 
+from funzioniiot.models import  Employee, Titoli2
 from blog.models import Titoli
 
 from .forms import EmployeeForm  
-from .models import Employee  
+
 
 
 
@@ -189,6 +190,13 @@ def emp(request):
 def show(request):  
     employees = Employee.objects.all()  
     return render(request,"funzioniiot/post/show.html",{'employees':employees})  
+
+def showtitoli(request):  
+    titoli = Titoli2.objects.all()  
+    return render(request,"funzioniiot/post/showtitoli.html",{'titoli':titoli})  
+
+
+
 def edit(request, id):  
     employee = Employee.objects.get(id=id)  
     return render(request,'funzioniiot/post/edit.html', {'employee':employee})  
@@ -203,3 +211,5 @@ def destroy(request, id):
     employee = Employee.objects.get(id=id)  
     employee.delete()  
     return redirect("/show")  
+
+
